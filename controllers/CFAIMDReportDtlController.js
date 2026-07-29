@@ -8,7 +8,7 @@ const { CFAIMDReportDtl, CFAIMDReportDtlExtra, CFAIMDReportTotalPOQty } =
 class CFAIMDReportDtlController extends BaseController {
   constructor() {
     super(CFAIMDReportDtl);
-    this.sequelize = db.sequelize;
+
   }
   async getAll(req, res) {
     try {
@@ -136,19 +136,19 @@ class CFAIMDReportDtlController extends BaseController {
   }
 
   async create(req, res) {
-    const transaction = await this.sequelize.transaction();
+    const transaction = await db.sequelizeDb3.transaction();
 
     try {
-      const report = await this.CFAIMDReportDtl.create(req.body.report, {
+      const report = await CFAIMDReportDtl.create(req.body.report, {
         transaction,
       });
 
-      const machineDetails = await this.CFAIMDReportDtlExtra.create(
+      const machineDetails = await CFAIMDReportDtlExtra.create(
         req.body.machineDetails,
         { transaction },
       );
 
-      const totalPOQty = await this.CFAIMDReportTotalPOQty.create(
+      const totalPOQty = await CFAIMDReportTotalPOQty.create(
         req.body.totalPOQty,
         { transaction },
       );

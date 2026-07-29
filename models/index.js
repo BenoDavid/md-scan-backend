@@ -1,19 +1,40 @@
-'use strict';
+"use strict";
 
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
-const process = require('process');
+const fs = require("fs");
+const path = require("path");
+const Sequelize = require("sequelize");
+const process = require("process");
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV || 'development';
-const { database } = require('../config');
+const env = process.env.NODE_ENV || "development";
+const { database } = require("../config");
 const config = database[env];
 const db = {};
 
 // Initialize Sequelize instances for each database
-const sequelizeDb1 = new Sequelize(config.database1.database, config.database1.username, config.database1.password, config.database1);
-const sequelizeDb2 = new Sequelize(config.database2.database, config.database2.username, config.database2.password, config.database2);
-const sequelizeDb3 = new Sequelize(config.database3.database, config.database3.username, config.database3.password, config.database3);
+const sequelizeDb1 = new Sequelize(
+  config.database1.database,
+  config.database1.username,
+  config.database1.password,
+  config.database1,
+);
+const sequelizeDb2 = new Sequelize(
+  config.database2.database,
+  config.database2.username,
+  config.database2.password,
+  config.database2,
+);
+const sequelizeDb3 = new Sequelize(
+  config.database3.database,
+  config.database3.username,
+  config.database3.password,
+  config.database3,
+);
+const sequelizeDb4 = new Sequelize(
+  config.database4.database,
+  config.database4.username,
+  config.database4.password,
+  config.database4,
+);
 
 // sequelizeDb2.sync({ force: true }).then(() => {
 //   console.log('Database synced and tables are created.');
@@ -21,22 +42,24 @@ const sequelizeDb3 = new Sequelize(config.database3.database, config.database3.u
 
 // Function to load models for a given Sequelize instance
 const loadModels = (sequelizeInstance, dbObject) => {
-  fs
-    .readdirSync(__dirname)
-    .filter(file => {
+  fs.readdirSync(__dirname)
+    .filter((file) => {
       return (
-        file.indexOf('.') !== 0 &&
+        file.indexOf(".") !== 0 &&
         file !== basename &&
-        file.slice(-3) === '.js' &&
-        file.indexOf('.test.js') === -1
+        file.slice(-3) === ".js" &&
+        file.indexOf(".test.js") === -1
       );
     })
-    .forEach(file => {
-      const model = require(path.join(__dirname, file))(sequelizeInstance, Sequelize.DataTypes);
+    .forEach((file) => {
+      const model = require(path.join(__dirname, file))(
+        sequelizeInstance,
+        Sequelize.DataTypes,
+      );
       dbObject[model.name] = model;
     });
 
-  Object.keys(dbObject).forEach(modelName => {
+  Object.keys(dbObject).forEach((modelName) => {
     if (dbObject[modelName].associate) {
       dbObject[modelName].associate(dbObject);
     }
@@ -47,32 +70,16 @@ const loadModels = (sequelizeInstance, dbObject) => {
 loadModels(sequelizeDb1, db);
 loadModels(sequelizeDb2, db);
 loadModels(sequelizeDb3, db);
+loadModels(sequelizeDb4, db);
 
 db.sequelizeDb1 = sequelizeDb1;
 db.sequelizeDb2 = sequelizeDb2;
 db.sequelizeDb3 = sequelizeDb3;
+db.sequelizeDb4 = sequelizeDb4;
 
 db.Sequelize = Sequelize;
 
 module.exports = db;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // 'use strict';
 

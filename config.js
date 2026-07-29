@@ -30,6 +30,14 @@ module.exports = {
 
         dialect: process.env.DB3_DIALECT,
       },
+      database4: {
+        username: process.env.DB4_USERNAME,
+        password: process.env.DB4_PASSWORD,
+        database: process.env.DB4_DATABASE_NAME,
+        host: process.env.DB4_HOST,
+        port: 51436,
+        dialect: process.env.DB4_DIALECT,
+      },
     },
     test: {
       database1: {
@@ -53,6 +61,13 @@ module.exports = {
         host: process.env.DB3_HOST,
         dialect: process.env.DB3_DIALECT,
       },
+      database4: {
+        username: process.env.DB4_USERNAME,
+        password: process.env.DB4_PASSWORD,
+        database: process.env.DB4_DATABASE_NAME,
+        host: process.env.DB4_HOST,
+        dialect: process.env.DB4_DIALECT,
+      },
     },
     production: {
       database1: {
@@ -75,6 +90,13 @@ module.exports = {
         database: process.env.DB3_DATABASE_NAME,
         host: process.env.DB3_HOST,
         dialect: process.env.DB3_DIALECT,
+      },
+      database4: {
+        username: process.env.DB4_USERNAME,
+        password: process.env.DB4_PASSWORD,
+        database: process.env.DB4_DATABASE_NAME,
+        host: process.env.DB4_HOST,
+        dialect: process.env.DB4_DIALECT,
       },
     },
   },
