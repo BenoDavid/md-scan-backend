@@ -15,8 +15,8 @@ class CFAIMDReportController extends BaseController {
         fromDate,
         toDate,
         page = 1,
-        limit = 10,
-        sortBy = "Date",
+        limit = 500,
+        sortBy = "dtlDate",
         sortOrder = "DESC",
         ...filters
       } = req.query;
@@ -47,13 +47,15 @@ class CFAIMDReportController extends BaseController {
         // Adjust endDate to include the entire day
         endDate.setHours(23, 59, 59, 999);
 
-        filterOptions.Date = {
+        filterOptions.dtlDate = {
           [Sequelize.Op.between]: [startDate, endDate],
         };
       }
+
       // Combine all options and fetch data
       const items = await this.model.findAndCountAll({
         where: filterOptions,
+
         order: sortOptions,
         ...paginationOptions,
       });
