@@ -15,7 +15,7 @@ class CFAIMDReportController extends BaseController {
         fromDate,
         toDate,
         page = 1,
-        limit = 500,
+        limit = 1500,
         sortBy = "dtlDate",
         sortOrder = "DESC",
         ...filters

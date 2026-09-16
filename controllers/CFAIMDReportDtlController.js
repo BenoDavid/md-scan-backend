@@ -8,7 +8,6 @@ const { CFAIMDReportDtl, CFAIMDReportDtlExtra, CFAIMDReportTotalPOQty } =
 class CFAIMDReportDtlController extends BaseController {
   constructor() {
     super(CFAIMDReportDtl);
-
   }
   async getAll(req, res) {
     try {
@@ -18,7 +17,7 @@ class CFAIMDReportDtlController extends BaseController {
         toDate,
         page = 1,
         limit = 10,
-        sortBy = "dtlDate",
+        sortBy = "CreatedOn",
         sortOrder = "DESC",
         ...filters
       } = req.query;
@@ -135,37 +134,82 @@ class CFAIMDReportDtlController extends BaseController {
     }
   }
 
+  // async create(req, res) {
+  //   try {
+  //     const result = await db.sequelizeDb3.transaction(async (transaction) => {
+  //       const reportData = {
+  //         ...req.body.report,
+  //         CreatedOn: new Date(),
+  //       };
+
+  //       // const report = await CFAIMDReportDtl.create(reportData, {
+  //       //   transaction,
+  //       // });
+
+  //       const machineDetails = await CFAIMDReportDtlExtra.create(
+  //         req.body.machineDetails,
+  //         { transaction },
+  //       );
+
+  //       const totalPOQty = await CFAIMDReportTotalPOQty.create(
+  //         req.body.totalPOQty,
+  //         { transaction },
+  //       );
+
+  //       return {
+  //         report,
+  //         machineDetails,
+  //         totalPOQty,
+  //       };
+  //     });
+
+  //     return res.status(200).json({
+  //       status: 200,
+  //       message: "Records created successfully",
+  //       result,
+  //     });
+  //   } catch (error) {
+  //     console.error("Create transaction failed:", error);
+
+  //     return res.status(500).json({
+  //       status: 500,
+  //       message: error.message,
+  //       result: {},
+  //     });
+  //   }
+  // }
+
   async create(req, res) {
-    const transaction = await db.sequelizeDb3.transaction();
-
     try {
-      const report = await CFAIMDReportDtl.create(req.body.report, {
-        transaction,
+      const result = await db.sequelizeDb3.transaction(async (transaction) => {
+        const report = await CFAIMDReportDtl.create(req.body.report, {
+          transaction,
+        });
+
+        const machineDetails = await CFAIMDReportDtlExtra.create(
+          req.body.machineDetails,
+          { transaction },
+        );
+
+        const totalPOQty = await CFAIMDReportTotalPOQty.create(
+          req.body.totalPOQty,
+          { transaction },
+        );
+
+        return {
+          report,
+          machineDetails,
+          totalPOQty,
+        };
       });
-
-      const machineDetails = await CFAIMDReportDtlExtra.create(
-        req.body.machineDetails,
-        { transaction },
-      );
-
-      const totalPOQty = await CFAIMDReportTotalPOQty.create(
-        req.body.totalPOQty,
-        { transaction },
-      );
-
-      await transaction.commit();
 
       return res.status(200).json({
         status: 200,
         message: "Records created successfully",
-        result: {
-          report,
-          machineDetails,
-          totalPOQty,
-        },
+        result: result,
       });
     } catch (error) {
-      await transaction.rollback();
+      console.error(error);
 
       return res.status(500).json({
         status: 500,

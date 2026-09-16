@@ -1,6 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
-
+const { Sequelize, DataTypes } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class CFAIMDReportDtl extends Model {}
 
@@ -57,8 +57,10 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: true,
       },
       CreatedOn: {
-        type: DataTypes.DATE,
+        //2025-01-01 02:12:37.723
+        type: DataTypes.DATEONLY,
         allowNull: true,
+        defaultValue: Sequelize.literal("GETDATE()"),
       },
       ScanTime: {
         type: DataTypes.TIME,
