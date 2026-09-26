@@ -116,7 +116,7 @@ class CFAIMDReportDtlController extends BaseController {
       const item = await this.model.findOne({
         attributes: ["BalanceQty"],
         where: filterOptions,
-        order: [["dtlDate", "DESC"]],
+        order: [["CreatedOn", "DESC"]],
       });
 
       // Respond with paginated data and metadata
