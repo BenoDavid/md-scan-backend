@@ -182,7 +182,17 @@ class CFAIMDReportDtlController extends BaseController {
   async create(req, res) {
     try {
       const result = await db.sequelizeDb3.transaction(async (transaction) => {
-        const report = await CFAIMDReportDtl.create(req.body.report, {
+        // Jordan uses UTC+03:00; generate both timestamps on SQL Server.
+        const reportData = {
+          ...req.body.report,
+          CreatedOn: Sequelize.literal(
+            "DATEADD(HOUR, 3, SYSUTCDATETIME())",
+          ),
+          ScanTime: Sequelize.literal(
+            "CONVERT(TIME(3), DATEADD(HOUR, 3, SYSUTCDATETIME()))",
+          ),
+        };
+        const report = await CFAIMDReportDtl.create(reportData, {
           transaction,
         });
 

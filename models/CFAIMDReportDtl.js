@@ -58,9 +58,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       CreatedOn: {
         //2025-01-01 02:12:37.723
-        type: DataTypes.DATEONLY,
+        type: DataTypes.DATE,
         allowNull: true,
-        defaultValue: Sequelize.literal("GETDATE()"),
+        defaultValue: Sequelize.literal("DATEADD(HOUR, 3, SYSUTCDATETIME())"),
       },
       ScanTime: {
         type: DataTypes.TIME,
